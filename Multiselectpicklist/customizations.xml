@@ -1,0 +1,72 @@
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Entities></Entities>
+  <Roles></Roles>
+  <Workflows></Workflows>
+  <FieldSecurityProfiles></FieldSecurityProfiles>
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <WebResources>
+    <WebResource>
+      <WebResourceId>{4036e100-919d-e611-80ff-c4346bdd9111}</WebResourceId>
+      <Name>msdyn_multiselect.html</Name>
+      <DisplayName>multiselect.html</DisplayName>
+      <WebResourceType>1</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <DependencyXml>&lt;Dependencies&gt;&lt;Dependency componentType="WebResource"/&gt;&lt;/Dependencies&gt;</DependencyXml>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/msdyn_multiselecthtml4036E100-919D-E611-80FF-C4346BDD9111</FileName>
+    </WebResource>
+    <WebResource>
+      <WebResourceId>{44d75b53-919d-e611-80ff-c4346bdd9111}</WebResourceId>
+      <Name>msdyn_multiselectStyle.css</Name>
+      <DisplayName>multiselectStyle.css</DisplayName>
+      <WebResourceType>2</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/msdyn_multiselectStylecss44D75B53-919D-E611-80FF-C4346BDD9111</FileName>
+    </WebResource>
+    <WebResource>
+      <WebResourceId>{0c474ca3-959d-e611-80ff-c4346bdd9111}</WebResourceId>
+      <Name>msdyn_multiselect.js</Name>
+      <DisplayName>multiselect.js</DisplayName>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>3</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <DependencyXml>&lt;Dependencies&gt;&lt;Dependency componentType="WebResource"/&gt;&lt;/Dependencies&gt;</DependencyXml>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/msdyn_multiselectjs0C474CA3-959D-E611-80FF-C4346BDD9111</FileName>
+    </WebResource>
+    <WebResource>
+      <WebResourceId>{b79d7eaf-9d9d-e611-80ff-c4346bdd9111}</WebResourceId>
+      <Name>msdyn_jquery1.11.1.min.js</Name>
+      <DisplayName>jquery1.11.1.min.js</DisplayName>
+      <WebResourceType>3</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/msdyn_jquery1111minjsB79D7EAF-9D9D-E611-80FF-C4346BDD9111</FileName>
+    </WebResource>
+  </WebResources>
+  <EntityDataProviders />
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

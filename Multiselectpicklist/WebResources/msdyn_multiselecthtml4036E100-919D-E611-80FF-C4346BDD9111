@@ -1,0 +1,105 @@
+<html><head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title></title>
+    <script type="text/javascript" src="ClientGlobalContext.js.aspx"></script>
+    <script src="msdyn_jquery1.11.1.min.js" type="text/javascript"></script>
+    <script src="msdyn_multiselect.js" type="text/javascript"></script>
+    <link href="msdyn_multiselectStyle.css" rel="stylesheet">
+   
+    <style type="text/css">
+        .margin-left10px {
+            margin-left: 10px;
+        }
+
+        #divMoveButton a {
+            height: 24px;
+            font-family: Segoe UI,Tahoma,Arial;
+            border: 1px solid #C6C6C6;
+            clear: both;
+            color: black;
+            display: block;
+            margin: 2px;
+            padding: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #tbl_mselect td {
+            padding: 2px 10px !important;
+        }
+
+        dd:hover {
+            background-color: #ccc;
+        }
+    </style>
+
+    <meta>
+    <meta>
+<meta><meta></head>
+<body style="word-wrap: break-word;">
+    <div class="multi-select-main">
+        <!--<div class="popupHeader">
+            <ul></ul>
+            <p>
+                LOOK UP RECORDS <span>
+                    <button data-role="none" type="button" class="close popup_create_cls" data-dismiss="modal" aria-hidden="true" id="btnClosePopup">X</button>
+                </span>
+            </p>
+        </div>
+        <p style="padding: 5px 10px; margin: 0px;">Search the records you want to include.</p>
+        <div style="width: 100%; display:table">
+            <div style="width: 46%; display: table-cell;">
+                <table style="width: 100%;" id="tbl_mselect">
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;"><span>Look For:</span></td>
+                            <td style="width: 75%;">
+                                <select id="ddlEntity" class="form-control" style="width: 100%;"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 8%; display: table-cell;"></div>
+            <div style="width: 46%; display: table-cell;position:relative;top:0px;">
+                <input id="MLookup_Search" class="form-control form-controllookup search-smt-pop3 dlIpad" type="text" style="margin: 2px;">
+            </div>
+        </div>-->
+        <div style="width: 97%; display: table;margin-left:10px;">
+            <div class="ms-crm-InlineEditLabelText" style="width: 54%; display: table-cell;">Available Records:</div>
+            <div class="ms-crm-InlineEditLabelText" style="width: 46%; display: table-cell;">Selected Records:</div>
+        </div>
+        <div id="divMSelectBody" style="width: 97%;margin-left:10px; display: table;">
+            <div style="width: 46%; display: table-cell;height: 210px;top:-10px !important;position:relative !important;">
+
+                <dl id="dlLeft" class="dlIpad" style="width: 100%;height:inherit;overflow:auto;display:inline-block;border:1px solid #ccc;"></dl>
+            </div>
+            <div style="width: 8%; display: table-cell;vertical-align:middle;" id="divMoveButton">
+                <table style="margin-left: auto; margin-right: auto;">
+                    <tbody>
+                        <tr>
+                            <td><a href="#" onclick="moveRight()">&gt;&gt;</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" onclick="moveLeft()">&lt;&lt;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 46%; display: table-cell;height: 210px;top:-10px !important;position:relative !important;">
+                <dl id="dlRight" class="dlIpad" style="width: 100%;height:inherit;overflow:auto;display:inline-block;border:1px solid #ccc;"></dl>
+            </div>
+        </div>
+        <div id="divMessage" style="text-align:center;margin-top:60px;">
+            Loading please wait
+        </div>
+        <div>
+            <!--<table style="right:5px;bottom:5px;position:absolute;"><tbody><tr><td><button class="btn btn-new" id="btn_ok">OK</button></td><td><button class="btn btn-new" id="btn_cancel">CANCEL</button></td></tr></tbody></table>-->
+            <input type="hidden" id="hdnmultipleselect" class="onlyForMultiSelect">
+        </div>
+    </div>
+
+
+
+</body></html>

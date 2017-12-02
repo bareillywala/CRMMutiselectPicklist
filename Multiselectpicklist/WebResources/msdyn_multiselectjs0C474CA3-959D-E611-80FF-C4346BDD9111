@@ -1,0 +1,355 @@
+var selectedGuids = ''; // Already selected Guids for same lookup. will be used as options on right in search.
+var ctrlId = '';// clicked lookup control id.
+var clickTimer = 0;
+var optionsetname = '';
+var selectedValuestext = '';
+var hiddenSelectedValues = '';
+
+$(document).ready(function () {
+    debugger;
+
+    //get containing record details if exists 
+    var externalParams = getExternalParams();
+
+    var inputParametrs = decodeURIComponent(externalParams[0][1]);
+    var multiselectParameter = inputParametrs.split(';');
+
+    optionsetname = multiselectParameter[0];
+    hiddenSelectedValues = multiselectParameter[1];
+    selectedValuestext = multiselectParameter[2];
+
+    fetchDataforMLookup();
+
+});
+
+//extract query string parameters into values array
+function getExternalParams() {
+    var result = null;
+
+    if (location.search != "") {
+        paramsArr = new Array();
+        paramsArr = location.search.substr(1).split("&");
+
+        for (var i in paramsArr) {
+            paramsArr[i] = paramsArr[i].replace(/\+/g, " ").split("=");
+        }
+
+        result = paramsArr;
+
+        return result;
+    }
+}
+
+//extract external parameter value by parameter name  
+function getExternalParamValue(ParamsArray, paramName) {
+    var result = null;
+
+
+    for (var i in ParamsArray) {
+        if (ParamsArray[i][0].toLowerCase() == paramName) {
+            result = (ParamsArray[i][1]);
+            break;
+        }
+        else if (ParamsArray[i][0].toLowerCase() == "data") {
+            var dataValues = decodeURIComponent(ParamsArray[i][1]).split("&");
+            for (var i in dataValues) {
+                dataValues[i] = dataValues[i].replace(/\+/g, " ").split("=");
+
+                for (var j in dataValues) {
+                    if (dataValues[j][0] == paramName) {
+                        result = dataValues[j][1];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+
+
+function fetchDataforMLookup() {
+
+    var options = parent.Xrm.Page.getAttribute(optionsetname).getOptions();
+
+    if (options != null && options.length > 0) {
+
+        //Hide Loading message and show Data.
+        $('#divMessage').hide();
+        $('#divMSelectBody').show();
+
+        $('#dlLeft').html('');
+        $('#dlRight').html('');
+        //Create cntrols in left dl and move selected items to right.
+        setupMultiSelect(options, 'Firstload');
+
+    }
+
+
+}
+
+function moveRight() {
+    $('#dlLeft').find('.selectedMLookUpRow').each(function () {
+        debugger;
+        //get the selected descriptions.
+        var descriptionData = $(this);
+        $(this).removeClass('selectedMLookUpRow');
+        //var descriptionTitle = descriptionData.attr('id').substring(descriptionData.attr('id').indexOf('_') + 1, descriptionData.attr('id').lastIndexOf('_'));
+
+
+        var descriptionTitleNew = $('<dt>').attr({
+            id: 'itemRight_' + descriptionData.attr('id').substring(descriptionData.attr('id').lastIndexOf('_') + 1, descriptionData.attr('id').length)
+        }).html(descriptionData.html()).addClass('mselectItemR');
+
+        if ($('#dlRight').children().length == 0)
+            $('#dlRight').append(descriptionTitleNew);
+        else {
+            var cur = null
+            var next = $('#dlRight').children().eq(0);
+            var found = 0;
+            while (next != null && next.length > 0) {
+                if (next.html().toLowerCase() < descriptionTitleNew.html().toLowerCase()) {
+                    cur = next;
+                    next = next.next();
+                }
+                else {
+                    found = 1;
+                    break;
+                }
+            }
+            if (found == 1)
+                next.before(descriptionTitleNew);
+            else
+                cur.after(descriptionTitleNew);
+        }
+
+        var selectedoptions = ';';
+        var selecteText = ';';
+
+        $('#dlRight').children().each(function () {
+
+            var id = $(this).attr('id');
+       
+            var OpValue = id.substr(id.indexOf("_") + 1);
+            selectedoptions += OpValue + ';';
+
+            var text = $(this).html();
+
+            selecteText += text + ';';
+
+        });
+
+        //Remove ; from text
+        selecteText = selecteText.replace(/^;|;$/g, '');
+
+        parent.Xrm.Page.getAttribute(hiddenSelectedValues).setValue(selectedoptions);
+        parent.Xrm.Page.getAttribute(selectedValuestext).setValue(selecteText);
+
+        descriptionData.hide();
+        descriptionData.addClass('inRight');
+
+
+        var newRowId = descriptionTitleNew.attr('id');
+        //  mselectItemR
+
+        $('#' + newRowId).click(function () {
+            clickTimer++;
+            var selectedItemid = this.id;
+
+            if (clickTimer === 1) {
+                timer = setTimeout(function () {
+                    if (clickTimer != 0) {
+                        selectRowMLookUp(selectedItemid);
+                        clickTimer = 0;
+                    }
+                }, 300);
+
+            } else {
+                clearTimeout(clickTimer);
+                selectRowMLookUp(selectedItemid);
+                selectNMoveLeft(selectedItemid);
+                clickTimer = 0;
+            }
+        });
+
+    });
+}
+
+function moveLeft() {
+    debugger;
+    $('#dlRight').find('.selectedMLookUpRow').each(function () {
+        var descriptionData = $(this);
+        $('#' + descriptionData.attr('id').replace('Right', 'Left')).show();
+        descriptionData.remove();
+        $('#' + descriptionData.attr('id').replace('Right', 'Left')).removeClass('inRight');
+
+        if ($('#dlRight').children().length == 0) {
+
+            parent.Xrm.Page.getAttribute(hiddenSelectedValues).setValue(null);
+            parent.Xrm.Page.getAttribute(selectedValuestext).setValue(null);
+        }
+        else {
+
+            var selectedoptions = ';';
+            var selecteText = ';';
+
+            $('#dlRight').children().each(function () {
+
+                var id = $(this).attr('id');             
+
+                var OpValue = id.substr(str.indexOf("_") + 1 );
+                selectedoptions += OpValue + ';';
+
+                var text = $(this).html();
+                selecteText += text + ';';
+
+            });
+
+            //Remove ; from text
+            selecteText = selecteText.replace(/^;|;$/g, '');
+
+            parent.Xrm.Page.getAttribute(hiddenSelectedValues).setValue(selectedoptions);
+            parent.Xrm.Page.getAttribute(selectedValuestext).setValue(selecteText);
+        }
+    });
+}
+
+function setSelectedValues() {
+    debugger;
+    //set Display value and GUIDs to be set in lookup as empty.
+    var selectedDisplayValues = '';
+    var selectedGuids = '';
+
+
+    var selectedValues = $('.mselectItemR');
+
+    //if any of the options are selected
+    if (selectedValues.length > 0) {
+        selectedValues.each(function () {
+            var valu = $(this).attr('id').substring($(this).attr('id').lastIndexOf('_') + 1, $(this).attr('id').length)
+            selectedGuids = selectedGuids == '' ? valu : selectedGuids + ';' + valu;
+            selectedDisplayValues = selectedDisplayValues == '' ? $(this).html() : selectedDisplayValues + ';' + $(this).html();
+        });
+
+        // set Display value, title and hidden fields of lookup.
+        $('#' + ctrlId).val(selectedDisplayValues);
+        $('#' + ctrlId).attr('title', selectedDisplayValues);
+        $('#' + ctrlId + '_hdn_SelectedRecordName').val(selectedDisplayValues);
+        $('#' + ctrlId + '_hdn_SelectedGuid').val(selectedGuids);
+        if ($('#lbl_' + ctrlId.replace('MLookup_', '')).length > 0) {
+            $('#lbl_' + ctrlId.replace('MLookup_', '')).removeClass('labelHighlight');
+        }
+        //close popup.
+        removePopup();
+    }
+    else // if right side contain no selected items.
+    {
+        $('#' + ctrlId).val('');
+        $('#' + ctrlId).attr('title', '');
+        $('#' + ctrlId + '_hdn_SelectedRecordName').val('');
+        $('#' + ctrlId + '_hdn_SelectedGuid').val('');
+        removePopup();
+    }
+}
+
+function searchFor(txt) {
+    debugger;
+    $('.mselectItemL').not('.inRight').each(function () {
+        debugger;
+        if ($(this).html().toLowerCase().indexOf(txt.toLowerCase()) < 0) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+
+}
+
+function setupMultiSelect(data, event) {
+
+
+    $.each(data, function (key, val) {
+        //create new description title and append it to left.
+        var displayData = $('<dt>').attr({
+            id: 'itemLeft_' + val.value,
+        }).html(val.text).addClass('mselectItemL');
+
+        $('#dlLeft').append(displayData);
+
+
+    });
+
+    if (event == 'Firstload') {
+        debugger;
+
+        var selectedOptions = parent.Xrm.Page.getAttribute(hiddenSelectedValues).getValue();
+        //move already selected options to right.
+
+        if (selectedOptions != null && selectedOptions != '') {
+
+            $.each(selectedOptions.split(';'), function (key, val) {
+                if (val != '') {
+                    $('#dlLeft').find('[id*=' + val + ']').addClass('selectedMLookUpRow');
+                    moveRight();
+                }
+            });
+        }
+    }
+
+
+    $('.mselectItemL').click(function () {
+        debugger;
+        clickTimer++;
+        var selectedItemid = this.id;
+
+
+        if (clickTimer === 1) {
+            timer = setTimeout(function () {
+                debugger;
+                if (clickTimer != 0) {
+                    selectRowMLookUp(selectedItemid);
+                    clickTimer = 0;
+                }
+            }, 300);
+
+        } else {
+            clearTimeout(clickTimer);
+            selectRowMLookUp(selectedItemid);
+            selectNMoveRight(selectedItemid);
+            clickTimer = 0;
+        }
+    });
+}
+
+function selectRowMLookUp(id) {
+    debugger;
+    if (!$('#' + id).hasClass('selectedMLookUpRow')) {
+        $('#' + id).addClass('selectedMLookUpRow');
+    }
+    else {
+        $('#' + id).removeClass('selectedMLookUpRow');
+    }
+}
+
+function selectNMoveRight(id) {
+    if (!$('#' + id).hasClass('selectedMLookUpRow')) {
+        $('#' + id).addClass('selectedMLookUpRow');
+    }
+    moveRight();
+}
+
+function selectNMoveLeft(id) {
+    debugger;
+    if (!$('#' + id).hasClass('selectedMLookUpRow')) {
+        $('#' + id).addClass('selectedMLookUpRow');
+    }
+    moveLeft();
+}
+
+function setMLookupDisplayData(id, value) {
+    $('#' + id).val(value);
+    $('#' + id).attr('title', value);
+}
+
